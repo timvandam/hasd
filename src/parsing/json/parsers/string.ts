@@ -1,5 +1,8 @@
 import { JsonParser, JsonString } from '../types'
 
+/**
+ * Parses strings
+ */
 export default function* JsonStringParser(): JsonParser<JsonString> {
 	let parsed = ''
 

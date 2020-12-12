@@ -1,5 +1,8 @@
 import { JsonNumber, JsonParser, JsonSymbol, JsonToken } from '../types'
 
+/**
+ * Parses numbers, booleans and null
+ */
 export default function* JsonTokenParser(): JsonParser<JsonToken> {
 	let chars = yield
 	const firstChar = chars[0]
