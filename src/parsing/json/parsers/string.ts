@@ -24,5 +24,5 @@ export default function* JsonStringParser(): JsonParser<JsonString> {
 		}
 	} while ((chars = yield))
 
-	return { parsed, remainder: '' }
+	throw new Error('End of generator')
 }

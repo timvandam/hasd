@@ -3,7 +3,7 @@ import { JsonNumber, JsonParser, JsonSymbol, JsonToken } from '../types'
 /**
  * Parses numbers, booleans and null
  */
-export default function* JsonTokenParser(): JsonParser<JsonToken> {
+/*export default function* JsonTokenParser(): JsonParser<JsonToken> {
 	let chars = yield
 	const firstChar = chars[0]
 	let parser: JsonParser<JsonToken>
@@ -24,33 +24,14 @@ export default function* JsonTokenParser(): JsonParser<JsonToken> {
 	} while ((chars = yield))
 
 	return { parsed: null, remainder: '' }
-}
-
-/**
- * Parses numbers by capturing any characters present in numbers and calling a Number constructor
- */
-function* JsonNumberParser(): JsonParser<JsonNumber> {
-	let parsed = ''
-	let chars: string
-
-	while ((chars = yield)) {
-		for (let i = 0; i < chars.length; i++) {
-			const char = chars[i]
-			if (char.match(/[-0-9.e]/i)) {
-				parsed += char
-			} else return { parsed: Number(parsed), remainder: chars.substring(i) }
-		}
-	}
-
-	throw new Error('End of generator')
-}
+}*/
 
 /**
  * Parses json symbols: json values that appear in just one form (e.g. true, false, null)
  * @param expected Expected character sequence
  * @param returnValue Return value in case the character sequence matches
  */
-function* JsonSymbolParser(expected: string, returnValue: JsonSymbol): JsonParser<JsonSymbol> {
+export default function* JsonSymbolParser(expected: string, returnValue: JsonSymbol): JsonParser<JsonSymbol> {
 	let chars: string
 
 	while ((chars = yield)) {
@@ -63,25 +44,4 @@ function* JsonSymbolParser(expected: string, returnValue: JsonSymbol): JsonParse
 	}
 
 	throw new Error('End of generator')
-}
-
-/**
- * Null parser. Abstraction over JsonSymbolParser
- */
-function JsonNullParser() {
-	return JsonSymbolParser('null', null)
-}
-
-/**
- * True parser. Abstraction over JsonSymbolParser
- */
-function JsonTrueParser() {
-	return JsonSymbolParser('true', true)
-}
-
-/**
- * False parser. Abstraction over JsonSymbolParser
- */
-function JsonFalseParser() {
-	return JsonSymbolParser('false', false)
 }

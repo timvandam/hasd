@@ -19,12 +19,5 @@ export type JsonNumber = number
 export type JsonBoolean = boolean
 export type JsonNull = null
 
-export enum JsonType {
-	STRING,
-	NUMBER,
-	ARRAY,
-	OBJECT,
-}
-
 export type ParseResponse<T> = { parsed: T; remainder: string }
 export type JsonParser<T extends JsonValue> = Generator<void, ParseResponse<T>, string>
