@@ -6,7 +6,8 @@ export default function* JsonTokenParser(): JsonParser<JsonToken> {
 	let parser: JsonParser<JsonToken>
 	if (firstChar.match(/[0-9]/)) parser = JsonNumberParser()
 	else if (firstChar === 'n') parser = JsonNullParser()
-	else if (firstChar === 't' || firstChar === 'f') parser = JsonBooleanParser(firstChar === 't')
+	else if (firstChar === 't') parser = JsonTrueParser()
+	else if (firstChar === 'f') parser = JsonFalseParser()
 	else throw new Error(`Invalid character in token parser '${firstChar}'`)
 
 	parser.next()
@@ -69,9 +70,15 @@ function JsonNullParser() {
 }
 
 /**
- * Boolean parser. Abstraction over JsonSymbolParser
- * @param expectedValue Expected value. Can be either true or false
+ * True parser. Abstraction over JsonSymbolParser
  */
-function JsonBooleanParser(expectedValue: boolean) {
-	return JsonSymbolParser(expectedValue.toString(), expectedValue)
+function JsonTrueParser() {
+	return JsonSymbolParser('true', true)
+}
+
+/**
+ * False parser. Abstraction over JsonSymbolParser
+ */
+function JsonFalseParser() {
+	return JsonSymbolParser('false', false)
 }
