@@ -1,2 +1,2 @@
 # hasd
-HTTP Library with stream parsing
+HTTP Library
