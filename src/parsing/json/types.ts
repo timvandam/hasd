@@ -1,11 +1,23 @@
-export type JsonValue = JsonString | JsonObject | JsonArray | JsonNumber
+export type JsonValue = JsonString | JsonObject | JsonArray | JsonNumber | JsonBoolean | JsonNull
+
+/**
+ * Tokens are json values without delimiters
+ */
+export type JsonToken = JsonNumber | JsonBoolean | JsonNull
+
+/**
+ * Symbols are json values that have just one exact form (null, true, false)
+ */
+export type JsonSymbol = JsonBoolean | JsonNull
 
 export type JsonString = string
 export type JsonArray = JsonValue[]
-export type JsonNumber = number
 export type JsonObject = {
 	[key in JsonString]: JsonValue
 }
+export type JsonNumber = number
+export type JsonBoolean = boolean
+export type JsonNull = null
 
 export enum JsonType {
 	STRING,
