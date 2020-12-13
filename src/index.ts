@@ -10,6 +10,13 @@ const defaultConfiguration: Configuration = {}
  * @since 1.0.0
  */
 export class Hasd {
+	/**
+	 * Global hasd instance
+	 * @version 1.0.0
+	 * @since 1.0.0
+	 */
+	public static instance = new Hasd()
+
 	constructor(private config: Configuration = { ...defaultConfiguration }) {}
 
 	public get() {
@@ -49,9 +56,4 @@ export class Hasd {
 	}
 }
 
-/**
- * Global hasd instance
- * @version 1.0.0
- * @since 1.0.0
- */
-export default new Hasd()
+export default Hasd.instance
