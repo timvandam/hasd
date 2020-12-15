@@ -1,8 +1,21 @@
 import Request, { Method } from './Request'
+import { URL } from 'url'
 
-export type Configuration = {}
+export type Configuration = {
+	keepAlive?: boolean
+	port?: number
+	url?: string | URL
+	headers?: Record<string, string>
+}
 
-const defaultConfiguration: Configuration = {}
+const defaultConfiguration: Configuration = {
+	keepAlive: false,
+	port: undefined,
+	url: undefined,
+	headers: {
+		'Transfer-Encoding': 'chunked',
+	},
+}
 
 /**
  * Hasd. Contains configuration, cookies.
@@ -57,3 +70,12 @@ export class Hasd {
 }
 
 export default Hasd.instance
+
+Hasd.instance
+	.post()
+	.url('http://jsonplaceholder.typicode.com/posts')
+	.json({
+		title: 'hello',
+		body: 'world',
+	})
+	.send()

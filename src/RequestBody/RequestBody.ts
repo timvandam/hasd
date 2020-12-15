@@ -1,3 +1,5 @@
+import { Readable } from 'stream'
+
 /**
  * Basic object that describes a request body.
  * @version 1.0.0
@@ -30,7 +32,7 @@ export default interface RequestBody {
  * @version 1.0.0
  * @since 1.0.0
  */
-export type BodyType = string | ReadableStream | (ReadableStream | string)[]
+export type BodyType = string | Readable
 
 /**
  * Object that can be used to build a RequestBody. Can be implemented to support different content types.
