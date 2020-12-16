@@ -16,7 +16,7 @@ export class Hasd {
 	 * @since 1.0.0
 	 */
 	public static instance = new Hasd()
-	private config: Configuration
+	private readonly config: Configuration
 
 	constructor(config: Partial<Configuration> = {}) {
 		this.config = { ...defaultConfiguration, ...config }

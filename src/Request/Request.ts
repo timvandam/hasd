@@ -59,7 +59,7 @@ export default class Request {
 	 * @version 1.0.0
 	 * @since 1.0.0
 	 */
-	public async send<R>(): Promise<Response> {
+	public async send(): Promise<Response> {
 		return new Promise((resolve) => {
 			const request = this.createRequest()
 			request.once('response', (incomingMessage) => resolve(new Response(incomingMessage)))
