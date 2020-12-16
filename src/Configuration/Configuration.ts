@@ -5,4 +5,6 @@ import RequestConfiguration from '../Request/RequestConfiguration'
  * @version 1.0.0
  * @since 1.0.0
  */
-export default interface Configuration extends Partial<RequestConfiguration> {}
+export default interface Configuration extends Partial<RequestConfiguration> {
+	// Cookie and authorization related settings would probably be handy here
+}

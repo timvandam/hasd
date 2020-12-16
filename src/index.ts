@@ -22,42 +22,162 @@ export class Hasd {
 		this.config = { ...defaultConfiguration, ...config }
 	}
 
+	/**
+	 * Configures the keepAlive option
+	 * @param keepAlive Whether to keep sockets alive after finishing a request
+	 * @version 1.0.0
+	 * @since 1.0.0
+	 */
+	public keepAlive(keepAlive: boolean): Hasd {
+		this.config.keepAlive = keepAlive
+		return this
+	}
+
+	/**
+	 * Configures the followRedirects option
+	 * @param followRedirects Whether to keep sockets alive after finishing a request
+	 * @version 1.0.0
+	 * @since 1.0.0
+	 */
+	public followRedirects(followRedirects: boolean): Hasd {
+		this.config.followRedirects = followRedirects
+		return this
+	}
+
+	/**
+	 * Sets a default header key-value pair
+	 * @param key Header name
+	 * @param value Header value
+	 * @version 1.0.0
+	 * @since 1.0.0
+	 */
+	public setHeader(key: string, value: string): Hasd {
+		if (!this.config.headers) this.config.headers = {}
+		this.config.headers[key] = value
+		return this
+	}
+
+	/**
+	 * Removes a header if present
+	 * @param key Header name
+	 * @version 1.0.0
+	 * @since 1.0.0
+	 */
+	public removeHeader(key: string): Hasd {
+		delete this.config?.headers?.[key]
+		return this
+	}
+
 	// TODO: Builder pattern to configure Configuration
 
-	public get(url: string, options?: RequestConfiguration) {
-		return new Request(url, { ...this.config, ...options, method: Method.GET })
+	/**
+	 * Creates a Request instance using the Hasd instance configuration
+	 * @param url URL to send the request to
+	 * @param options Request options
+	 * @version 1.0.0
+	 * @since 1.0.0
+	 */
+	public request(url: string, options: RequestConfiguration): Request {
+		return new Request(url, { ...this.config, ...options })
 	}
 
-	public head(url: string, options?: RequestConfiguration) {
-		return new Request(url, { ...this.config, ...options, method: Method.HEAD })
+	/**
+	 * Creates a Request instance using the Hasd instance configuration with method GET
+	 * @param url URL to send the request to
+	 * @param options Request options
+	 * @version 1.0.0
+	 * @since 1.0.0
+	 */
+	public get(url: string, options?: RequestConfiguration): Request {
+		return this.request(url, { ...options, method: Method.GET })
 	}
 
-	public post(url: string, options?: RequestConfiguration) {
-		return new Request(url, { ...this.config, ...options, method: Method.POST })
+	/**
+	 * Creates a Request instance using the Hasd instance configuration with method HEAD
+	 * @param url URL to send the request to
+	 * @param options Request options
+	 * @version 1.0.0
+	 * @since 1.0.0
+	 */
+	public head(url: string, options?: RequestConfiguration): Request {
+		return this.request(url, { ...options, method: Method.HEAD })
 	}
 
-	public put(url: string, options?: RequestConfiguration) {
-		return new Request(url, { ...this.config, ...options, method: Method.PUT })
+	/**
+	 * Creates a Request instance using the Hasd instance configuration with method POST
+	 * @param url URL to send the request to
+	 * @param options Request options
+	 * @version 1.0.0
+	 * @since 1.0.0
+	 */
+	public post(url: string, options?: RequestConfiguration): Request {
+		return this.request(url, { ...options, method: Method.POST })
 	}
 
-	public delete(url: string, options?: RequestConfiguration) {
-		return new Request(url, { ...this.config, ...options, method: Method.DELETE })
+	/**
+	 * Creates a Request instance using the Hasd instance configuration with method PUT
+	 * @param url URL to send the request to
+	 * @param options Request options
+	 * @version 1.0.0
+	 * @since 1.0.0
+	 */
+	public put(url: string, options?: RequestConfiguration): Request {
+		return this.request(url, { ...options, method: Method.PUT })
 	}
 
-	public connect(url: string, options?: RequestConfiguration) {
-		return new Request(url, { ...this.config, ...options, method: Method.CONNECT })
+	/**
+	 * Creates a Request instance using the Hasd instance configuration with method DELETE
+	 * @param url URL to send the request to
+	 * @param options Request options
+	 * @version 1.0.0
+	 * @since 1.0.0
+	 */
+	public delete(url: string, options?: RequestConfiguration): Request {
+		return this.request(url, { ...options, method: Method.DELETE })
 	}
 
-	public options(url: string, options?: RequestConfiguration) {
-		return new Request(url, { ...this.config, ...options, method: Method.OPTIONS })
+	/**
+	 * Creates a Request instance using the Hasd instance configuration with method CONNECT
+	 * @param url URL to send the request to
+	 * @param options Request options
+	 * @version 1.0.0
+	 * @since 1.0.0
+	 */
+	public connect(url: string, options?: RequestConfiguration): Request {
+		return this.request(url, { ...options, method: Method.CONNECT })
 	}
 
-	public trace(url: string, options?: RequestConfiguration) {
-		return new Request(url, { ...this.config, ...options, method: Method.TRACE })
+	/**
+	 * Creates a Request instance using the Hasd instance configuration with method OPTIONS
+	 * @param url URL to send the request to
+	 * @param options Request options
+	 * @version 1.0.0
+	 * @since 1.0.0
+	 */
+	public options(url: string, options?: RequestConfiguration): Request {
+		return this.request(url, { ...options, method: Method.OPTIONS })
 	}
 
-	public patch(url: string, options?: RequestConfiguration) {
-		return new Request(url, { ...this.config, ...options, method: Method.PATCH })
+	/**
+	 * Creates a Request instance using the Hasd instance configuration with method TRACE
+	 * @param url URL to send the request to
+	 * @param options Request options
+	 * @version 1.0.0
+	 * @since 1.0.0
+	 */
+	public trace(url: string, options?: RequestConfiguration): Request {
+		return this.request(url, { ...options, method: Method.TRACE })
+	}
+
+	/**
+	 * Creates a Request instance using the Hasd instance configuration with method PATCH
+	 * @param url URL to send the request to
+	 * @param options Request options
+	 * @version 1.0.0
+	 * @since 1.0.0
+	 */
+	public patch(url: string, options?: RequestConfiguration): Request {
+		return this.request(url, { ...options, method: Method.PATCH })
 	}
 }
 
