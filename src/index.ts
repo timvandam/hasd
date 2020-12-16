@@ -18,7 +18,7 @@ export class Hasd {
 	public static instance = new Hasd()
 	private config: Configuration
 
-	constructor(config: Configuration = {}) {
+	constructor(config: Partial<Configuration> = {}) {
 		this.config = { ...defaultConfiguration, ...config }
 	}
 
@@ -77,7 +77,7 @@ export class Hasd {
 	 * @version 1.0.0
 	 * @since 1.0.0
 	 */
-	public request(url: string, options: RequestConfiguration): Request {
+	public request(url: string, options: Partial<RequestConfiguration>): Request {
 		return new Request(url, { ...this.config, ...options })
 	}
 
@@ -88,7 +88,7 @@ export class Hasd {
 	 * @version 1.0.0
 	 * @since 1.0.0
 	 */
-	public get(url: string, options?: RequestConfiguration): Request {
+	public get(url: string, options?: Partial<RequestConfiguration>): Request {
 		return this.request(url, { ...options, method: Method.GET })
 	}
 
@@ -99,7 +99,7 @@ export class Hasd {
 	 * @version 1.0.0
 	 * @since 1.0.0
 	 */
-	public head(url: string, options?: RequestConfiguration): Request {
+	public head(url: string, options?: Partial<RequestConfiguration>): Request {
 		return this.request(url, { ...options, method: Method.HEAD })
 	}
 
@@ -110,7 +110,7 @@ export class Hasd {
 	 * @version 1.0.0
 	 * @since 1.0.0
 	 */
-	public post(url: string, options?: RequestConfiguration): Request {
+	public post(url: string, options?: Partial<RequestConfiguration>): Request {
 		return this.request(url, { ...options, method: Method.POST })
 	}
 
@@ -121,7 +121,7 @@ export class Hasd {
 	 * @version 1.0.0
 	 * @since 1.0.0
 	 */
-	public put(url: string, options?: RequestConfiguration): Request {
+	public put(url: string, options?: Partial<RequestConfiguration>): Request {
 		return this.request(url, { ...options, method: Method.PUT })
 	}
 
@@ -132,7 +132,7 @@ export class Hasd {
 	 * @version 1.0.0
 	 * @since 1.0.0
 	 */
-	public delete(url: string, options?: RequestConfiguration): Request {
+	public delete(url: string, options?: Partial<RequestConfiguration>): Request {
 		return this.request(url, { ...options, method: Method.DELETE })
 	}
 
@@ -143,7 +143,7 @@ export class Hasd {
 	 * @version 1.0.0
 	 * @since 1.0.0
 	 */
-	public connect(url: string, options?: RequestConfiguration): Request {
+	public connect(url: string, options?: Partial<RequestConfiguration>): Request {
 		return this.request(url, { ...options, method: Method.CONNECT })
 	}
 
@@ -154,7 +154,7 @@ export class Hasd {
 	 * @version 1.0.0
 	 * @since 1.0.0
 	 */
-	public options(url: string, options?: RequestConfiguration): Request {
+	public options(url: string, options?: Partial<RequestConfiguration>): Request {
 		return this.request(url, { ...options, method: Method.OPTIONS })
 	}
 
@@ -165,7 +165,7 @@ export class Hasd {
 	 * @version 1.0.0
 	 * @since 1.0.0
 	 */
-	public trace(url: string, options?: RequestConfiguration): Request {
+	public trace(url: string, options?: Partial<RequestConfiguration>): Request {
 		return this.request(url, { ...options, method: Method.TRACE })
 	}
 
@@ -176,7 +176,7 @@ export class Hasd {
 	 * @version 1.0.0
 	 * @since 1.0.0
 	 */
-	public patch(url: string, options?: RequestConfiguration): Request {
+	public patch(url: string, options?: Partial<RequestConfiguration>): Request {
 		return this.request(url, { ...options, method: Method.PATCH })
 	}
 }
