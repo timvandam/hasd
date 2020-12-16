@@ -11,6 +11,8 @@ import Response from '../Response/Response'
  * Request builder class with default Configuration.
  * @version 1.0.0
  * @since 1.0.0
+ * @todo https support
+ * @todo use http.STATUS_CODES and http.METHODS
  */
 export default class Request {
 	private requestBody?: RequestBody

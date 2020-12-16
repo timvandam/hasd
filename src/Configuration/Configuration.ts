@@ -1,11 +1,8 @@
-import { Method } from '../Request/Method'
+import RequestConfiguration from '../Request/RequestConfiguration'
 
 /**
  * Configuration for a Hasd instance
  * @version 1.0.0
  * @since 1.0.0
  */
-export default interface Configuration {
-	headers?: Record<string, string>
-	method?: Method
-}
+export default interface Configuration extends Partial<RequestConfiguration> {}

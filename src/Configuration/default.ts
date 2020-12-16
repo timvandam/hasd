@@ -9,4 +9,6 @@ export default <Configuration>{
 	headers: {
 		'Transfer-Encoding': 'chunked',
 	},
+	followRedirects: true,
+	keepAlive: false,
 }
