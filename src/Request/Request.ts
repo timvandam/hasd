@@ -8,7 +8,7 @@ import JsonBodySerializer, { JsonValue } from './serialize/JsonBodySerializer'
 import Response from '../Response/Response'
 
 /**
- * Request builder class with default config.
+ * Request builder class with default Configuration.
  * @version 1.0.0
  * @since 1.0.0
  */
@@ -18,7 +18,7 @@ export default class Request {
 	private options: RequestConfiguration
 
 	/**
-	 * Constructs a new request using a reference to some default config.
+	 * Constructs a new request using a reference to some default Configuration.
 	 * @param url Url to sent this request to
 	 * @param options Request Options
 	 * @version 1.0.0

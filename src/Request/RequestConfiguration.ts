@@ -1,5 +1,5 @@
-import Configuration from '../Configuration'
 import { Method } from './Method'
+import Configuration from '../Configuration/Configuration'
 
 /**
  * Configuration that is used when sending Request instances

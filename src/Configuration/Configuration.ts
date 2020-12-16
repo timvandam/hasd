@@ -1,4 +1,4 @@
-import { Method } from './Request/Method'
+import { Method } from '../Request/Method'
 
 /**
  * Configuration for a Hasd instance

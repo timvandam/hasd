@@ -1,8 +1,8 @@
 import Request from './Request/Request'
 import { Method } from './Request/Method'
 import RequestConfiguration from './Request/RequestConfiguration'
-import Configuration from './Configuration'
-import defaultConfiguration from './config/default'
+import defaultConfiguration from './Configuration/default'
+import Configuration from './Configuration/Configuration'
 
 /**
  * Hasd. Contains configuration, cookies.
@@ -22,7 +22,7 @@ export class Hasd {
 		this.config = { ...defaultConfiguration, ...config }
 	}
 
-	// TODO: Builder pattern to configure config
+	// TODO: Builder pattern to configure Configuration
 
 	public get(url: string, options?: RequestConfiguration) {
 		return new Request(url, { ...this.config, ...options, method: Method.GET })
