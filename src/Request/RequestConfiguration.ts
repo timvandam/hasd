@@ -9,7 +9,7 @@ import RequestBody from './RequestBody'
  */
 export default interface RequestConfiguration {
 	method: Method
-	headers?: Record<string, string>
+	headers: Record<string, string>
 	body?: RequestBody
 	followRedirects: boolean
 	keepAlive: boolean

@@ -1,4 +1,5 @@
 import Configuration from './Configuration'
+import { Method } from '../Request/Method'
 
 /**
  * Default configuration
@@ -6,6 +7,7 @@ import Configuration from './Configuration'
  * @since 1.0.0
  */
 export default <Configuration>{
+	method: Method.GET,
 	headers: {
 		'Transfer-Encoding': 'chunked',
 	},
