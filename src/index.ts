@@ -1,17 +1,10 @@
-import Request, { Method } from './Request'
-import { URL } from 'url'
-
-export type Configuration = {
-	keepAlive?: boolean
-	port?: number
-	url?: string | URL
-	headers?: Record<string, string>
-}
+import Request from './Request/Request'
+import { Method } from './Request/Method'
+import RequestConfiguration from './Request/RequestConfiguration'
+import Configuration from './Configuration'
 
 const defaultConfiguration: Configuration = {
 	keepAlive: false,
-	port: undefined,
-	url: undefined,
 	headers: {
 		'Transfer-Encoding': 'chunked',
 	},
@@ -29,51 +22,53 @@ export class Hasd {
 	 * @since 1.0.0
 	 */
 	public static instance = new Hasd()
+	private config: Configuration
 
-	constructor(private config: Configuration = { ...defaultConfiguration }) {}
-
-	public get() {
-		return new Request(Method.GET, this.config)
+	constructor(config: Configuration = {}) {
+		this.config = { ...defaultConfiguration, ...config }
 	}
 
-	public head() {
-		return new Request(Method.HEAD, this.config)
+	public get(url: string, options?: RequestConfiguration) {
+		return new Request(url, { ...this.config, ...options, method: Method.GET })
 	}
 
-	public post() {
-		return new Request(Method.POST, this.config)
+	public head(url: string, options?: RequestConfiguration) {
+		return new Request(url, { ...this.config, ...options, method: Method.HEAD })
 	}
 
-	public put() {
-		return new Request(Method.PUT, this.config)
+	public post(url: string, options?: RequestConfiguration) {
+		return new Request(url, { ...this.config, ...options, method: Method.POST })
 	}
 
-	public delete() {
-		return new Request(Method.DELETE, this.config)
+	public put(url: string, options?: RequestConfiguration) {
+		return new Request(url, { ...this.config, ...options, method: Method.PUT })
 	}
 
-	public connect() {
-		return new Request(Method.CONNECT, this.config)
+	public delete(url: string, options?: RequestConfiguration) {
+		return new Request(url, { ...this.config, ...options, method: Method.DELETE })
 	}
 
-	public options() {
-		return new Request(Method.OPTIONS, this.config)
+	public connect(url: string, options?: RequestConfiguration) {
+		return new Request(url, { ...this.config, ...options, method: Method.CONNECT })
 	}
 
-	public trace() {
-		return new Request(Method.TRACE, this.config)
+	public options(url: string, options?: RequestConfiguration) {
+		return new Request(url, { ...this.config, ...options, method: Method.OPTIONS })
 	}
 
-	public patch() {
-		return new Request(Method.PATCH, this.config)
+	public trace(url: string, options?: RequestConfiguration) {
+		return new Request(url, { ...this.config, ...options, method: Method.TRACE })
+	}
+
+	public patch(url: string, options?: RequestConfiguration) {
+		return new Request(url, { ...this.config, ...options, method: Method.PATCH })
 	}
 }
 
 export default Hasd.instance
 
 Hasd.instance
-	.post()
-	.url('http://jsonplaceholder.typicode.com/posts')
+	.post('http://jsonplaceholder.typicode.com/posts')
 	.json({
 		title: 'hello',
 		body: 'world',

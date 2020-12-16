@@ -1,4 +1,5 @@
-import RequestBody, { RequestBodyGenerator } from './RequestBody'
+import RequestBodySerializer from './RequestBodySerializer'
+import RequestBody from '../RequestBody'
 
 /**
  * JSON Value type.
@@ -20,7 +21,7 @@ const contentType = 'application/json'
  * @version 1.0.0
  * @since 1.0.0
  */
-export default class JsonBodyGenerator implements RequestBodyGenerator {
+export default class JsonBodySerializer implements RequestBodySerializer {
 	private readonly json: JsonValue = null
 	private body?: string
 
