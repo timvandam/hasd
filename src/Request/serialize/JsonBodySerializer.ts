@@ -14,8 +14,6 @@ export type JsonValue =
 	| JsonValue[]
 	| { [key in string | number | symbol]: JsonValue }
 
-const contentType = 'application/json'
-
 /**
  * Basic JSON body generator. Uses JSON.stringify.
  * @version 1.0.0
@@ -30,10 +28,10 @@ export default class JsonBodySerializer implements RequestBodySerializer {
 	}
 
 	getRequestBody(): RequestBody {
-		this.body ??= JSON.stringify(this.json)
+		this.body ??= JSON.stringify(this.json) // memoize the value because why not (could improve performance for recurring requests)
 		return {
 			body: this.body,
-			contentType,
+			contentType: 'application/json',
 		}
 	}
 }

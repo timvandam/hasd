@@ -2,13 +2,7 @@ import Request from './Request/Request'
 import { Method } from './Request/Method'
 import RequestConfiguration from './Request/RequestConfiguration'
 import Configuration from './Configuration'
-
-const defaultConfiguration: Configuration = {
-	keepAlive: false,
-	headers: {
-		'Transfer-Encoding': 'chunked',
-	},
-}
+import defaultConfiguration from './config/default'
 
 /**
  * Hasd. Contains configuration, cookies.
@@ -27,6 +21,8 @@ export class Hasd {
 	constructor(config: Configuration = {}) {
 		this.config = { ...defaultConfiguration, ...config }
 	}
+
+	// TODO: Builder pattern to configure config
 
 	public get(url: string, options?: RequestConfiguration) {
 		return new Request(url, { ...this.config, ...options, method: Method.GET })

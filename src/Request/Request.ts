@@ -57,13 +57,11 @@ export default class Request {
 	 * @version 1.0.0
 	 * @since 1.0.0
 	 */
-	public async send<R>(): Promise<Response<R>> {
+	public async send<R>(): Promise<Response> {
 		return new Promise((resolve) => {
 			const request = this.createRequest()
-
-			request.once('response', resolve)
-
-			this.setRequestHeaders(request)
+			request.once('response', (incomingMessage) => resolve(new Response(incomingMessage)))
+			this.writeRequestHeaders(request)
 			this.writeRequestBody(request)
 		})
 	}
@@ -87,7 +85,7 @@ export default class Request {
 	 * @version 1.0.0
 	 * @since 1.0.0
 	 */
-	private setRequestHeaders(request: ClientRequest): void {
+	private writeRequestHeaders(request: ClientRequest): void {
 		if (this.requestBody?.contentType) request.setHeader('Content-Type', this.requestBody.contentType)
 		if (this.options.headers) {
 			for (const [k, v] of Object.entries(this.options.headers)) {
