@@ -3,6 +3,7 @@ import { Method } from './Request/Method'
 import RequestConfiguration from './Request/RequestConfiguration'
 import defaultConfiguration from './Configuration/default'
 import Configuration from './Configuration/Configuration'
+import JsonBodyDeserializer from './body/json/JsonBodyDeserializer'
 
 /**
  * Hasd. Contains configuration, cookies.
@@ -187,6 +188,8 @@ Hasd.instance
 	.post('http://jsonplaceholder.typicode.com/posts')
 	.json({
 		title: 'hello',
-		body: 'world',
+		body: 'world!!!!!',
 	})
 	.send()
+	.then((response) => response.body(JsonBodyDeserializer))
+	.then(console.log)

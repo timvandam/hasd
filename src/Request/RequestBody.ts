@@ -1,6 +1,6 @@
 import { Readable } from 'stream'
 import { concatReadableStreams, stringToReadableStream } from '../util/readableStream'
-import RequestBodySerializer from './serialize/RequestBodySerializer'
+import RequestBodySerializer from './RequestBodySerializer'
 
 /**
  * Basic object that describes a request body.

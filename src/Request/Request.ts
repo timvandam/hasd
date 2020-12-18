@@ -3,9 +3,10 @@ import { ClientRequest, request } from 'http'
 import RequestBody, { isRequestBody, requestBodyToReadable } from './RequestBody'
 import { Method } from './Method'
 import RequestConfiguration from './RequestConfiguration'
-import RequestBodySerializer from './serialize/RequestBodySerializer'
-import JsonBodySerializer, { JsonValue } from './serialize/JsonBodySerializer'
+import RequestBodySerializer from './RequestBodySerializer'
+import JsonBodySerializer from '../body/json/JsonBodySerializer'
 import Response from '../Response/Response'
+import { JsonValue } from '../body/json/JsonValue'
 
 /**
  * Request builder class with default Configuration.
@@ -62,7 +63,9 @@ export default class Request {
 	public async send(): Promise<Response> {
 		return new Promise((resolve) => {
 			const request = this.createRequest()
-			request.once('response', (incomingMessage) => resolve(new Response(incomingMessage)))
+			request.once('response', (incomingMessage) => {
+				resolve(Response.fromIncomingMessage(incomingMessage))
+			})
 			this.writeRequestHeaders(request)
 			this.writeRequestBody(request)
 		})
