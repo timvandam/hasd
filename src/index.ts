@@ -18,6 +18,7 @@ export class Hasd {
 	 */
 	public static instance = new Hasd()
 	private readonly config: Configuration
+	// TODO: cookie jar
 
 	constructor(config: Partial<Configuration> = {}) {
 		this.config = { ...defaultConfiguration, ...config }
@@ -191,5 +192,8 @@ Hasd.instance
 		body: 'world!!!!!',
 	})
 	.send()
-	.then((response) => response.body(JsonBodyDeserializer))
+	.then((response) => {
+		console.log(response.getHeader('Content-Type'))
+		return response.body(JsonBodyDeserializer)
+	})
 	.then(console.log)

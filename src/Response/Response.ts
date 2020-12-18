@@ -21,8 +21,15 @@ export default class Response {
 		return new Deserializer(this.incomingMessage).getResponseBody()
 	}
 
+	public getHeader(name: string): string | string[] | undefined {
+		return this.headers[name.toLowerCase()]
+	}
+
 	static fromIncomingMessage(incomingMessage: IncomingMessage): Promise<Response> {
 		return new Promise((resolve) => {
+			// TODO: Auto parsing body based on Content-Type header
+			// TODO: Better header format
+			// TODO: getHeader method that auto lowercases header names
 			const headers: Headers = {}
 			for (const [k, v] of Object.entries(incomingMessage.headers)) {
 				if (!v) continue
