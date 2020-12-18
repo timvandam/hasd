@@ -1,6 +1,6 @@
 import ResponseBodyDeserializer from '../../Response/ResponseBodyDeserializer'
-import { IncomingMessage } from 'http'
 import { JsonValue } from './JsonValue'
+import { Readable } from 'stream'
 
 /**
  * Basic JSON body reader. Uses JSON.parse.
@@ -8,11 +8,11 @@ import { JsonValue } from './JsonValue'
  * @since 1.0.0
  */
 export default class JsonBodyDeserializer implements ResponseBodyDeserializer<JsonValue> {
-	constructor(private readonly incomingMessage: IncomingMessage) {}
+	constructor(private readonly body: Readable) {}
 
 	async getResponseBody(): Promise<JsonValue> {
 		let json = ''
-		for await (const chunk of this.incomingMessage) json += chunk
+		for await (const chunk of this.body) json += chunk
 		return JSON.parse(json)
 	}
 }

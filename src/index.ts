@@ -79,7 +79,7 @@ export class Hasd {
 	 * @version 1.0.0
 	 * @since 1.0.0
 	 */
-	public request(url: string, options: Partial<RequestConfiguration>): Request {
+	public request(url: string, options?: Partial<RequestConfiguration>): Request {
 		return new Request(url, { ...this.config, ...options })
 	}
 

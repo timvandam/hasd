@@ -1,4 +1,4 @@
-import { IncomingMessage } from 'http'
+import { Readable } from 'stream'
 
 /**
  * Object that can be used to read a Response's body.
@@ -16,5 +16,5 @@ export default interface ResponseBodyDeserializer<T> {
 }
 
 export interface ResponseBodyDeserializerConstructor<T> {
-	new (incomingMessage: IncomingMessage): ResponseBodyDeserializer<T>
+	new (body: Readable): ResponseBodyDeserializer<T>
 }

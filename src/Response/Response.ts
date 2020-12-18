@@ -1,6 +1,7 @@
 import { IncomingMessage } from 'http'
 import Headers from '../Headers'
 import { ResponseBodyDeserializerConstructor } from './ResponseBodyDeserializer'
+import { Readable } from 'stream'
 
 /**
  * Response object.
@@ -9,22 +10,35 @@ import { ResponseBodyDeserializerConstructor } from './ResponseBodyDeserializer'
  */
 export default class Response {
 	public readonly ok: boolean
+
 	private constructor(
-		private readonly incomingMessage: IncomingMessage,
-		public readonly headers: Headers,
+		private readonly _body: Readable,
+		private readonly headers: Headers,
 		public readonly statusCode: number
 	) {
 		this.ok = statusCode >= 200 && statusCode < 300
 	}
 
+	/**
+	 * Reads the response using some deserializer
+	 * @param Deserializer Deserializer to read the response with
+	 */
 	public body<T>(Deserializer: ResponseBodyDeserializerConstructor<T>): Promise<T> {
-		return new Deserializer(this.incomingMessage).getResponseBody()
+		return new Deserializer(this._body).getResponseBody()
 	}
 
+	/**
+	 * Reads a header.
+	 * @param name Header name
+	 */
 	public getHeader(name: string): string | string[] | undefined {
 		return this.headers[name.toLowerCase()]
 	}
 
+	/**
+	 * Constructs a Request instance from an incomingMessage
+	 * @param incomingMessage
+	 */
 	static fromIncomingMessage(incomingMessage: IncomingMessage): Response {
 		// TODO: Auto parsing body based on Content-Type header
 		// TODO: Better header format
