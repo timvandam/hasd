@@ -1,6 +1,6 @@
 import { IncomingMessage } from 'http'
 import Headers from '../Headers'
-import ResponseBodyDeserializer, { ResponseBodyDeserializerConstructor } from './ResponseBodyDeserializer'
+import { ResponseBodyDeserializerConstructor } from './ResponseBodyDeserializer'
 
 /**
  * Response object.
@@ -25,18 +25,16 @@ export default class Response {
 		return this.headers[name.toLowerCase()]
 	}
 
-	static fromIncomingMessage(incomingMessage: IncomingMessage): Promise<Response> {
-		return new Promise((resolve) => {
-			// TODO: Auto parsing body based on Content-Type header
-			// TODO: Better header format
-			// TODO: getHeader method that auto lowercases header names
-			const headers: Headers = {}
-			for (const [k, v] of Object.entries(incomingMessage.headers)) {
-				if (!v) continue
-				headers[k] = v
-			}
+	static fromIncomingMessage(incomingMessage: IncomingMessage): Response {
+		// TODO: Auto parsing body based on Content-Type header
+		// TODO: Better header format
+		// TODO: getHeader method that auto lowercases header names
+		const headers: Headers = {}
+		for (const [k, v] of Object.entries(incomingMessage.headers)) {
+			if (!v) continue
+			headers[k] = v
+		}
 
-			resolve(new Response(incomingMessage, headers, incomingMessage.statusCode as number))
-		})
+		return new Response(incomingMessage, headers, incomingMessage.statusCode as number)
 	}
 }
