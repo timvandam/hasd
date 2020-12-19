@@ -3,6 +3,7 @@ import RequestBody from './RequestBody'
 import * as http from 'http'
 import * as https from 'https'
 import { URL } from 'url'
+import CookieJar from '../CookieJar/CookieJar'
 
 /**
  * Configuration that is used when sending Request instances
@@ -17,4 +18,5 @@ export default interface RequestConfiguration {
 	followRedirects: boolean | number // TODO: Use this
 	httpAgent?: http.Agent
 	httpsAgent?: https.Agent
+	cookieJar?: CookieJar | boolean
 }

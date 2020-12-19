@@ -82,7 +82,7 @@ export default class Request {
 		return new Promise((resolve) => {
 			const request = this.createRequest()
 			request.once('response', (incomingMessage) => {
-				resolve(Response.fromIncomingMessage(incomingMessage))
+				resolve(new Response(incomingMessage, incomingMessage.headers, incomingMessage.statusCode as number))
 			})
 			this.writeRequestHeaders(request)
 			this.writeRequestBody(request)

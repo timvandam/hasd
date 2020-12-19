@@ -14,6 +14,7 @@ export default <Configuration>{
 		'Transfer-Encoding': 'chunked',
 	},
 	followRedirects: 5,
-	httpAgent: new http.Agent({ keepAlive: true }),
-	httpsAgent: new https.Agent({ keepAlive: true }),
+	httpAgent: new http.Agent({ keepAlive: true, timeout: 5000 }),
+	httpsAgent: new https.Agent({ keepAlive: true, timeout: 5000 }),
+	cookieJar: false,
 }

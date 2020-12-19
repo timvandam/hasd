@@ -1,5 +1,4 @@
-import { IncomingMessage } from 'http'
-import Headers from '../Headers'
+import { IncomingHttpHeaders } from 'http'
 import { ResponseBodyDeserializerConstructor } from './ResponseBodyDeserializer'
 import { Readable } from 'stream'
 import JsonBodyDeserializer from '../body/json/JsonBodyDeserializer'
@@ -12,9 +11,9 @@ import JsonBodyDeserializer from '../body/json/JsonBodyDeserializer'
 export default class Response {
 	public readonly ok: boolean
 
-	private constructor(
+	constructor(
 		private readonly _body: Readable,
-		private readonly headers: Headers,
+		public readonly headers: IncomingHttpHeaders,
 		public readonly statusCode: number
 	) {
 		this.ok = statusCode >= 200 && statusCode < 300
@@ -23,6 +22,8 @@ export default class Response {
 	/**
 	 * Reads the response using some deserializer
 	 * @param Deserializer Deserializer to read the response with
+	 * @version 1.0.0
+	 * @since 1.0.0
 	 */
 	public body<T>(Deserializer: ResponseBodyDeserializerConstructor<T>): Promise<T> {
 		return new Deserializer(this._body).getResponseBody()
@@ -30,30 +31,10 @@ export default class Response {
 
 	/**
 	 * Reads the response using a json deserializer.
+	 * @version 1.0.0
+	 * @since 1.0.0
 	 */
 	public json(): ReturnType<Response['body']> {
 		return this.body(JsonBodyDeserializer)
-	}
-
-	/**
-	 * Reads a header.
-	 * @param name Header name
-	 */
-	public getHeader(name: string): string | string[] | undefined {
-		return this.headers[name.toLowerCase()]
-	}
-
-	/**
-	 * Constructs a Request instance from an incomingMessage
-	 * @param incomingMessage
-	 */
-	static fromIncomingMessage(incomingMessage: IncomingMessage): Response {
-		const headers: Headers = {}
-		for (const [k, v] of Object.entries(incomingMessage.headers)) {
-			if (!v) continue
-			headers[k] = v
-		}
-
-		return new Response(incomingMessage, headers, incomingMessage.statusCode as number)
 	}
 }
