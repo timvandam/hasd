@@ -16,7 +16,6 @@ import { HasToString } from '../util/types'
  * Request builder class with default Configuration.
  * @version 1.0.0
  * @since 1.0.0
- * @todo https support
  */
 export default class Request {
 	private requestBody?: RequestBody

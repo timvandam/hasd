@@ -48,7 +48,6 @@ export default class Response {
 	 * @param incomingMessage
 	 */
 	static fromIncomingMessage(incomingMessage: IncomingMessage): Response {
-		// TODO: Better header format
 		const headers: Headers = {}
 		for (const [k, v] of Object.entries(incomingMessage.headers)) {
 			if (!v) continue
