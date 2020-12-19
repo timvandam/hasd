@@ -1,5 +1,5 @@
-import { URL } from 'url'
-import { ClientRequest, request } from 'http'
+import { URL, URLSearchParams } from 'url'
+import { ClientRequest } from 'http'
 import RequestBody, { isRequestBody, requestBodyToReadable } from './RequestBody'
 import { Method } from './Method'
 import RequestConfiguration from './RequestConfiguration'
@@ -7,18 +7,19 @@ import RequestBodySerializer from './RequestBodySerializer'
 import JsonBodySerializer from '../body/json/JsonBodySerializer'
 import Response from '../Response/Response'
 import { JsonValue } from '../body/json/JsonValue'
+import * as http from 'http'
+import * as https from 'https'
 
 /**
  * Request builder class with default Configuration.
  * @version 1.0.0
  * @since 1.0.0
  * @todo https support
- * @todo use http.STATUS_CODES and http.METHODS
  */
 export default class Request {
 	private requestBody?: RequestBody
-	private readonly _url: string | URL
 	private options: RequestConfiguration
+	private readonly url: URL
 
 	/**
 	 * Constructs a new request using a reference to some default Configuration.
@@ -27,8 +28,10 @@ export default class Request {
 	 * @version 1.0.0
 	 * @since 1.0.0
 	 */
-	constructor(url: string | URL, options: RequestConfiguration) {
-		this._url = url
+	constructor(url: string, options: RequestConfiguration) {
+		this.url = new URL(url, options.baseUrl)
+		if (this.url.protocol !== 'http:' && this.url.protocol !== 'https:')
+			throw new Error('Invalid request protocol (must be either http or https)')
 		this.options = { ...options }
 	}
 
@@ -42,6 +45,19 @@ export default class Request {
 		if (isRequestBody(body)) this.requestBody = body
 		else this.requestBody = body.getRequestBody()
 		return this
+	}
+
+	/**
+	 * Appends a querystring to the URL with the given parameters.
+	 * @param params The parameters to use.
+	 * @version 1.0.0
+	 * @since 1.0.0
+	 */
+	public qs(params: URLSearchParams | string | Record<string, string | string[]>): void {
+		if (!(params instanceof URLSearchParams)) params = new URLSearchParams(params)
+		for (const [k, v] of params) {
+			this.url.searchParams.append(k, v)
+		}
 	}
 
 	/**
@@ -78,8 +94,12 @@ export default class Request {
 	 * @since 1.0.0
 	 */
 	private createRequest(): ClientRequest {
-		return request(this._url, {
+		const isHttp = this.url.protocol === 'http'
+		const request = isHttp ? http.request : https.request
+		const agent = isHttp ? this.options.httpAgent : this.options.httpsAgent
+		return request(this.url, {
 			method: Method[this.options.method],
+			agent,
 		})
 	}
 

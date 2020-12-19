@@ -1,5 +1,7 @@
 import Configuration from './Configuration'
 import { Method } from '../Request/Method'
+import http from 'http'
+import https from 'https'
 
 /**
  * Default configuration
@@ -11,6 +13,7 @@ export default <Configuration>{
 	headers: {
 		'Transfer-Encoding': 'chunked',
 	},
-	followRedirects: true,
-	keepAlive: false,
+	followRedirects: 5,
+	httpAgent: new http.Agent({ keepAlive: true }),
+	httpsAgent: new https.Agent({ keepAlive: true }),
 }

@@ -4,6 +4,7 @@ import RequestConfiguration from './Request/RequestConfiguration'
 import defaultConfiguration from './Configuration/default'
 import Configuration from './Configuration/Configuration'
 import JsonBodyDeserializer from './body/json/JsonBodyDeserializer'
+import { ValueOf } from './util/types'
 
 /**
  * Hasd. Contains configuration, cookies.
@@ -25,23 +26,12 @@ export class Hasd {
 	}
 
 	/**
-	 * Configures the keepAlive option
-	 * @param keepAlive Whether to keep sockets alive after finishing a request
-	 * @version 1.0.0
-	 * @since 1.0.0
-	 */
-	public keepAlive(keepAlive: boolean): Hasd {
-		this.config.keepAlive = keepAlive
-		return this
-	}
-
-	/**
 	 * Configures the followRedirects option
 	 * @param followRedirects Whether to keep sockets alive after finishing a request
 	 * @version 1.0.0
 	 * @since 1.0.0
 	 */
-	public followRedirects(followRedirects: boolean): Hasd {
+	public followRedirects(followRedirects: Configuration['followRedirects']): Hasd {
 		this.config.followRedirects = followRedirects
 		return this
 	}
@@ -53,7 +43,7 @@ export class Hasd {
 	 * @version 1.0.0
 	 * @since 1.0.0
 	 */
-	public setHeader(key: string, value: string): Hasd {
+	public setHeader(key: keyof Configuration['headers'], value: ValueOf<Configuration['headers']>): Hasd {
 		if (!this.config.headers) this.config.headers = {}
 		this.config.headers[key] = value
 		return this
@@ -65,8 +55,19 @@ export class Hasd {
 	 * @version 1.0.0
 	 * @since 1.0.0
 	 */
-	public removeHeader(key: string): Hasd {
+	public removeHeader(key: keyof Configuration['headers']): Hasd {
 		delete this.config?.headers?.[key]
+		return this
+	}
+
+	/**
+	 * Sets the base url of this instance.
+	 * @param baseUrl The base url to set
+	 * @version 1.0.0
+	 * @since 1.0.0k
+	 */
+	public baseUrl(baseUrl: Configuration['baseUrl']): Hasd {
+		this.config.baseUrl = baseUrl
 		return this
 	}
 
@@ -185,8 +186,10 @@ export class Hasd {
 
 export default Hasd.instance
 
-Hasd.instance
-	.post('http://jsonplaceholder.typicode.com/posts')
+const hasd = new Hasd().baseUrl('https://jsonplaceholder.typicode.com')
+
+hasd
+	.post('posts')
 	.json({
 		title: 'hello',
 		body: 'world!!!!!',
