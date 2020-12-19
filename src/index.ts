@@ -3,7 +3,6 @@ import { Method } from './Request/Method'
 import RequestConfiguration from './Request/RequestConfiguration'
 import defaultConfiguration from './Configuration/default'
 import Configuration from './Configuration/Configuration'
-import JsonBodyDeserializer from './body/json/JsonBodyDeserializer'
 import { ValueOf } from './util/types'
 
 /**
@@ -189,14 +188,8 @@ export default Hasd.instance
 const hasd = new Hasd().baseUrl('https://jsonplaceholder.typicode.com')
 
 hasd
-	.post('posts')
-	.json({
-		title: 'hello',
-		body: 'world!!!!!',
-	})
+	.get('comments')
+	.qs({ postId: 20 })
 	.send()
-	.then((response) => {
-		console.log(response.getHeader('Content-Type'))
-		return response.body(JsonBodyDeserializer)
-	})
+	.then((response) => response.json())
 	.then(console.log)

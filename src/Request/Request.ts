@@ -9,6 +9,8 @@ import Response from '../Response/Response'
 import { JsonValue } from '../body/json/JsonValue'
 import * as http from 'http'
 import * as https from 'https'
+import { convertValuesToString } from '../util/record'
+import { HasToString } from '../util/types'
 
 /**
  * Request builder class with default Configuration.
@@ -53,11 +55,12 @@ export default class Request {
 	 * @version 1.0.0
 	 * @since 1.0.0
 	 */
-	public qs(params: URLSearchParams | string | Record<string, string | string[]>): void {
-		if (!(params instanceof URLSearchParams)) params = new URLSearchParams(params)
+	public qs(params: URLSearchParams | Record<string | number, HasToString | HasToString[]>): Request {
+		if (!(params instanceof URLSearchParams)) params = new URLSearchParams(convertValuesToString(params))
 		for (const [k, v] of params) {
 			this.url.searchParams.append(k, v)
 		}
+		return this
 	}
 
 	/**

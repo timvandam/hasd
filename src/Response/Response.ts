@@ -2,6 +2,7 @@ import { IncomingMessage } from 'http'
 import Headers from '../Headers'
 import { ResponseBodyDeserializerConstructor } from './ResponseBodyDeserializer'
 import { Readable } from 'stream'
+import JsonBodyDeserializer from '../body/json/JsonBodyDeserializer'
 
 /**
  * Response object.
@@ -25,6 +26,13 @@ export default class Response {
 	 */
 	public body<T>(Deserializer: ResponseBodyDeserializerConstructor<T>): Promise<T> {
 		return new Deserializer(this._body).getResponseBody()
+	}
+
+	/**
+	 * Reads the response using a json deserializer.
+	 */
+	public json(): ReturnType<Response['body']> {
+		return this.body(JsonBodyDeserializer)
 	}
 
 	/**
