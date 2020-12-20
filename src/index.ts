@@ -4,6 +4,8 @@ import RequestConfiguration from './Request/RequestConfiguration'
 import defaultConfiguration from './Configuration/default'
 import Configuration from './Configuration/Configuration'
 import { ValueOf } from './util/types'
+import path from 'path'
+import CookieJar from './CookieJar/CookieJar'
 
 /**
  * Hasd. Contains configuration, cookies.
@@ -185,14 +187,11 @@ export class Hasd {
 
 export default Hasd.instance
 
-const hasd = new Hasd().baseUrl('https://jsonplaceholder.typicode.com')
+const hasd = new Hasd({ cookieJar: new CookieJar() }).baseUrl('https://jsonplaceholder.typicode.com')
 
 hasd
 	.get('comments')
 	.qs({ postId: 20 })
 	.send()
-	.then((r) => {
-		console.log(r.headers['set-cookie'] ?? [])
-		return r
-	})
 	.then((r) => r.json())
+// .then(console.log)

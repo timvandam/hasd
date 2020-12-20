@@ -82,7 +82,7 @@ export default class Request {
 		return new Promise((resolve) => {
 			const request = this.createRequest()
 			request.once('response', (incomingMessage) => {
-				resolve(new Response(incomingMessage, incomingMessage.headers, incomingMessage.statusCode as number))
+				resolve(new Response(this.url, incomingMessage, incomingMessage.headers, incomingMessage.statusCode as number))
 			})
 			this.writeRequestHeaders(request)
 			this.writeRequestBody(request)
@@ -113,6 +113,7 @@ export default class Request {
 	 * @since 1.0.0
 	 */
 	private writeRequestHeaders(request: ClientRequest): void {
+		// TODO: Write cookies
 		if (this.requestBody?.contentType) request.setHeader('Content-Type', this.requestBody.contentType)
 		if (this.options.headers) {
 			for (const [k, v] of Object.entries(this.options.headers)) {

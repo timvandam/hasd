@@ -2,7 +2,7 @@ import { IncomingHttpHeaders } from 'http'
 import { ResponseBodyDeserializerConstructor } from './ResponseBodyDeserializer'
 import { Readable } from 'stream'
 import JsonBodyDeserializer from '../body/json/JsonBodyDeserializer'
-import Cookie from '../CookieJar/Cookie'
+import { URL } from 'url'
 
 /**
  * Response object.
@@ -13,12 +13,12 @@ export default class Response {
 	public readonly ok: boolean
 
 	constructor(
+		private readonly url: URL,
 		private readonly _body: Readable,
 		public readonly headers: IncomingHttpHeaders,
 		public readonly statusCode: number
 	) {
 		this.ok = statusCode >= 200 && statusCode < 300
-		Cookie.fromSetCookies(this.headers['set-cookie'] ?? []).forEach(console.log)
 	}
 
 	/**
