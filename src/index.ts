@@ -195,3 +195,5 @@ hasd
 	.send()
 	.then((r) => r.json())
 // .then(console.log)
+
+console.log(path.parse('/helo/world/'))

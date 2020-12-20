@@ -9,8 +9,16 @@ import { FilterIterator } from '../util/iterators'
  */
 export default class CookieJar {
 	public static readonly COOKIES: unique symbol = Symbol('cookies')
-	public cookieTree: CookieTree = { [CookieJar.COOKIES]: [] }
+	private cookieTree: CookieTree = {}
 
+	// TODO: Remove cookies when they're old. Toggle for this check
+
+	/**
+	 * Adds a cookie to the cookie tree
+	 * @param cookie Cookie to add
+	 * @version 1.0.0
+	 * @since 1.0.0
+	 */
 	public put(cookie: Cookie): void {
 		if (!cookie.valid) return
 		let cookieTreeReference: CookieTree = this.cookieTree
@@ -19,14 +27,14 @@ export default class CookieJar {
 			cookieTreeReference[part] ??= {}
 			cookieTreeReference = cookieTreeReference[part]
 		}
-		cookieTreeReference[CookieJar.COOKIES] ??= []
-		// @ts-ignore
-		cookieTreeReference[CookieJar.COOKIES].push(cookie)
+		;(cookieTreeReference[CookieJar.COOKIES] ??= []).push(cookie)
 	}
 
 	/**
 	 * Gets a cookie header value for the given url
-	 * @param url
+	 * @param url Url of the request to get the header for
+	 * @version 1.0.0
+	 * @since 1.0.0
 	 */
 	public getCookieHeader(url: URL): string {
 		const cookies = [...CookieJar.CookieIterator(this.cookieTree, url)]
@@ -38,6 +46,8 @@ export default class CookieJar {
 	 * @param cookies All cookies
 	 * @param url Url
 	 * @param reverseHostnameIterator Reverse iterator through parts of the url
+	 * @version 1.0.0
+	 * @since 1.0.0
 	 */
 	public static *CookieIterator(
 		cookies: CookieTree,
@@ -49,36 +59,32 @@ export default class CookieJar {
 		// Also make sure that the path matches
 		yield* FilterIterator(cookies[CookieJar.COOKIES] ?? [], ({ domain, url: _url, path }) => {
 			const domainMatches = domain ? url.hostname.includes(domain) : url.hostname === _url.hostname
-			console.log(url.pathname, path)
-			return domainMatches && url.pathname.startsWith(path)
+			const pathMatches = url.pathname.startsWith(path)
+			return domainMatches && pathMatches
 		})
 		const { value: part, done } = reverseHostnameIterator.next()
-		if (done || typeof part !== 'string') return
-		if (cookies[part]) yield* CookieJar.CookieIterator(cookies[part], url, reverseHostnameIterator)
+		if (done) return
+		if (cookies[part as string]) yield* CookieJar.CookieIterator(cookies[part as string], url, reverseHostnameIterator)
 	}
 }
 
 /**
  * Tree of cookies that is used to store cookies based on their host name.
  * This allows for (relatively) quick cookie lookups.
+ * @version 1.0.0
+ * @since 1.0.0
  */
 type CookieTree = {
 	[part: string]: CookieTree
 	[CookieJar.COOKIES]?: Cookie[]
 }
 
-function* ReverseHostnameIterator(hostname: string) {
+/**
+ * Iterates through parts of a hostname in reverse
+ * @param hostname The hostname to traverse
+ * @version 1.0.0
+ * @since 1.0.0
+ */
+function* ReverseHostnameIterator(hostname: string): Generator<string, void, undefined> {
 	yield* hostname.split('.').reverse()[Symbol.iterator]()
 }
-
-const jar = new CookieJar()
-jar.put(
-	new Cookie(new URL('http://bye.search.google.com'), 'cookeName', 'cookieValue', {
-		domain: 'search.google.com',
-		path: '/haha/',
-	})
-)
-jar.put(new Cookie(new URL('http://google.com'), 'cookeName1231', 'cookieValue', { domain: 'google.com' }))
-
-const it = jar.getCookieHeader(new URL('http://hello.search.google.com/haha'))
-console.log(it)

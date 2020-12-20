@@ -11,6 +11,7 @@ module.exports = {
 	},
 	plugins: ['@typescript-eslint'],
 	rules: {
-		'@typescript-eslint/no-empty-interface': 'off', // fine for naming purposes
+		'@typescript-eslint/no-empty-interface': 'warn', // fine for naming purposes
+		'@typescript-eslint/no-extra-semi': 'warn', // prettier isn't perfect, so this is needed sometimes
 	},
 }

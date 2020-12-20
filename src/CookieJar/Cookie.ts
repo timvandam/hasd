@@ -37,7 +37,8 @@ export default class Cookie {
 
 		const { dir = '', base = '' } = path.parse(rawCookie.path || '/')
 		this.path = dir
-		if (base) this.path += `${base}`
+		if (base) this.path += `/${base}`
+		console.log(this.path)
 		this.valid ||= this.path.charAt(0) === '/'
 
 		this.secure = !!rawCookie.secure

@@ -2,6 +2,8 @@
  * Iterators through an iterable with a filter
  * @param iterable Iterator to iterate through
  * @param filter Filter to apply
+ * @version 1.0.0
+ * @since 1.0.0
  */
 export function* FilterIterator<T>(
 	iterable: Iterable<T>,
