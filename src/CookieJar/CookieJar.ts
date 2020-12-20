@@ -3,4 +3,8 @@
  * @version 1.0.0
  * @since 1.0.0
  */
-export default class CookieJar {}
+export default class CookieJar {
+	private cookies: Cookies = {}
+}
+
+type Cookies = {}

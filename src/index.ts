@@ -191,5 +191,8 @@ hasd
 	.get('comments')
 	.qs({ postId: 20 })
 	.send()
-	.then((response) => response.headers)
-	.then(console.log)
+	.then((r) => {
+		console.log(r.headers['set-cookie'] ?? [])
+		return r
+	})
+	.then((r) => r.json())
