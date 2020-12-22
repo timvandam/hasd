@@ -156,6 +156,6 @@ export default class Request {
 		const setCookies = response.headers['set-cookie']
 		if (!setCookies || !setCookies.length) return
 		const cj = this.options.cookieJar
-		Cookie.fromSetCookies(this.url, setCookies).forEach((cookie) => cj.put(cookie))
+		this.options.cookieJar.putAll(Cookie.fromSetCookies(this.url, setCookies))
 	}
 }

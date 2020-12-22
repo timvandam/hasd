@@ -31,6 +31,16 @@ export default class CookieJar {
 	}
 
 	/**
+	 * Adds many cookies to the cookie tree
+	 * @param cookies List of cookies to add
+	 * @version 1.0.0
+	 * @since 1.0.0
+	 */
+	public putAll(cookies: Cookie[]): void {
+		cookies.forEach((cookie) => this.put(cookie))
+	}
+
+	/**
 	 * Gets a cookie header value for the given url
 	 * @param url Url of the request to get the header for
 	 * @version 1.0.0
