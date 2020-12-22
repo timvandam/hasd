@@ -4,7 +4,6 @@ import RequestConfiguration from './Request/RequestConfiguration'
 import defaultConfiguration from './Configuration/default'
 import Configuration from './Configuration/Configuration'
 import { ValueOf } from './util/types'
-import path from 'path'
 import CookieJar from './CookieJar/CookieJar'
 
 /**
@@ -20,10 +19,10 @@ export class Hasd {
 	 */
 	public static instance = new Hasd()
 	private readonly config: Configuration
-	// TODO: cookie jar
 
 	constructor(config: Partial<Configuration> = {}) {
 		this.config = { ...defaultConfiguration, ...config }
+		if (this.config.cookieJar && typeof this.config.cookieJar === 'boolean') this.config.cookieJar = new CookieJar()
 	}
 
 	/**
@@ -187,13 +186,14 @@ export class Hasd {
 
 export default Hasd.instance
 
-const hasd = new Hasd({ cookieJar: new CookieJar() }).baseUrl('https://jsonplaceholder.typicode.com')
+const hasd = new Hasd({ cookieJar: true }).baseUrl('https://jsonplaceholder.typicode.com')
 
-hasd
-	.get('comments')
-	.qs({ postId: 20 })
+const req = hasd.get('comments').qs({ postId: 20 })
+
+req
 	.send()
+	.then((response) => {
+		return response
+	})
 	.then((r) => r.json())
-// .then(console.log)
-
-console.log(path.parse('/helo/world/'))
+	.then(console.log)

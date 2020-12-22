@@ -11,6 +11,8 @@ import * as http from 'http'
 import * as https from 'https'
 import { convertValuesToString } from '../util/record'
 import { HasToString } from '../util/types'
+import CookieJar from '../CookieJar/CookieJar'
+import Cookie from '../CookieJar/Cookie'
 
 /**
  * Request builder class with default Configuration.
@@ -82,7 +84,14 @@ export default class Request {
 		return new Promise((resolve) => {
 			const request = this.createRequest()
 			request.once('response', (incomingMessage) => {
-				resolve(new Response(this.url, incomingMessage, incomingMessage.headers, incomingMessage.statusCode as number))
+				const response = new Response(
+					this.url,
+					incomingMessage,
+					incomingMessage.headers,
+					incomingMessage.statusCode as number
+				)
+				this.setCookies(response)
+				resolve(response)
 			})
 			this.writeRequestHeaders(request)
 			this.writeRequestBody(request)
@@ -113,12 +122,14 @@ export default class Request {
 	 * @since 1.0.0
 	 */
 	private writeRequestHeaders(request: ClientRequest): void {
-		// TODO: Write cookies
 		if (this.requestBody?.contentType) request.setHeader('Content-Type', this.requestBody.contentType)
 		if (this.options.headers) {
 			for (const [k, v] of Object.entries(this.options.headers)) {
 				request.setHeader(k, v)
 			}
+		}
+		if (this.options.cookieJar instanceof CookieJar) {
+			request.setHeader('cookies', this.options.cookieJar.getCookieHeader(this.url))
 		}
 	}
 
@@ -133,5 +144,18 @@ export default class Request {
 		// Pipe a body stream into the request.
 		// Request.end() is automatically called once all data has been transported.
 		requestBodyToReadable(this.requestBody).pipe(request)
+	}
+
+	/**
+	 * Puts response cookies in a cookie jar if there is one present.
+	 * @param response The response
+	 * @private
+	 */
+	private setCookies(response: Response): void {
+		if (!this.options.cookieJar || !(this.options.cookieJar instanceof CookieJar)) return
+		const setCookies = response.headers['set-cookie']
+		if (!setCookies || !setCookies.length) return
+		const cj = this.options.cookieJar
+		Cookie.fromSetCookies(this.url, setCookies).forEach((cookie) => cj.put(cookie))
 	}
 }
