@@ -185,15 +185,3 @@ export class Hasd {
 }
 
 export default Hasd.instance
-
-const hasd = new Hasd({ cookieJar: true }).baseUrl('https://jsonplaceholder.typicode.com')
-
-const req = hasd.get('comments').qs({ postId: 20 })
-
-req
-	.send()
-	.then((response) => {
-		return response
-	})
-	.then((r) => r.json())
-	.then(console.log)
