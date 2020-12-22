@@ -31,7 +31,7 @@ export default class Request {
 	 * @version 1.0.0
 	 * @since 1.0.0
 	 */
-	constructor(url: string, options: RequestConfiguration) {
+	constructor(url: ConstructorParameters<typeof URL>[0], options: RequestConfiguration) {
 		this.url = new URL(url, options.baseUrl)
 		if (this.url.protocol !== 'http:' && this.url.protocol !== 'https:')
 			throw new Error('Invalid request protocol (must be either http or https)')

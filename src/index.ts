@@ -5,6 +5,7 @@ import defaultConfiguration from './Configuration/default'
 import Configuration from './Configuration/Configuration'
 import { ValueOf } from './util/types'
 import CookieJar from './CookieJar/CookieJar'
+import { URL } from 'url'
 
 /**
  * Hasd. Contains configuration, cookies.
@@ -80,7 +81,7 @@ export class Hasd {
 	 * @version 1.0.0
 	 * @since 1.0.0
 	 */
-	public request(url: string, options?: Partial<RequestConfiguration>): Request {
+	public request(url: ConstructorParameters<typeof URL>[0], options?: Partial<RequestConfiguration>): Request {
 		return new Request(url, { ...this.config, ...options })
 	}
 
@@ -91,7 +92,7 @@ export class Hasd {
 	 * @version 1.0.0
 	 * @since 1.0.0
 	 */
-	public get(url: string, options?: Partial<RequestConfiguration>): Request {
+	public get(url: ConstructorParameters<typeof URL>[0], options?: Partial<RequestConfiguration>): Request {
 		return this.request(url, { ...options, method: Method.GET })
 	}
 
@@ -102,7 +103,7 @@ export class Hasd {
 	 * @version 1.0.0
 	 * @since 1.0.0
 	 */
-	public head(url: string, options?: Partial<RequestConfiguration>): Request {
+	public head(url: ConstructorParameters<typeof URL>[0], options?: Partial<RequestConfiguration>): Request {
 		return this.request(url, { ...options, method: Method.HEAD })
 	}
 
@@ -113,7 +114,7 @@ export class Hasd {
 	 * @version 1.0.0
 	 * @since 1.0.0
 	 */
-	public post(url: string, options?: Partial<RequestConfiguration>): Request {
+	public post(url: ConstructorParameters<typeof URL>[0], options?: Partial<RequestConfiguration>): Request {
 		return this.request(url, { ...options, method: Method.POST })
 	}
 
@@ -124,7 +125,7 @@ export class Hasd {
 	 * @version 1.0.0
 	 * @since 1.0.0
 	 */
-	public put(url: string, options?: Partial<RequestConfiguration>): Request {
+	public put(url: ConstructorParameters<typeof URL>[0], options?: Partial<RequestConfiguration>): Request {
 		return this.request(url, { ...options, method: Method.PUT })
 	}
 
@@ -135,7 +136,7 @@ export class Hasd {
 	 * @version 1.0.0
 	 * @since 1.0.0
 	 */
-	public delete(url: string, options?: Partial<RequestConfiguration>): Request {
+	public delete(url: ConstructorParameters<typeof URL>[0], options?: Partial<RequestConfiguration>): Request {
 		return this.request(url, { ...options, method: Method.DELETE })
 	}
 
@@ -146,7 +147,7 @@ export class Hasd {
 	 * @version 1.0.0
 	 * @since 1.0.0
 	 */
-	public connect(url: string, options?: Partial<RequestConfiguration>): Request {
+	public connect(url: ConstructorParameters<typeof URL>[0], options?: Partial<RequestConfiguration>): Request {
 		return this.request(url, { ...options, method: Method.CONNECT })
 	}
 
@@ -157,7 +158,7 @@ export class Hasd {
 	 * @version 1.0.0
 	 * @since 1.0.0
 	 */
-	public options(url: string, options?: Partial<RequestConfiguration>): Request {
+	public options(url: ConstructorParameters<typeof URL>[0], options?: Partial<RequestConfiguration>): Request {
 		return this.request(url, { ...options, method: Method.OPTIONS })
 	}
 
@@ -168,7 +169,7 @@ export class Hasd {
 	 * @version 1.0.0
 	 * @since 1.0.0
 	 */
-	public trace(url: string, options?: Partial<RequestConfiguration>): Request {
+	public trace(url: ConstructorParameters<typeof URL>[0], options?: Partial<RequestConfiguration>): Request {
 		return this.request(url, { ...options, method: Method.TRACE })
 	}
 
@@ -179,7 +180,7 @@ export class Hasd {
 	 * @version 1.0.0
 	 * @since 1.0.0
 	 */
-	public patch(url: string, options?: Partial<RequestConfiguration>): Request {
+	public patch(url: ConstructorParameters<typeof URL>[0], options?: Partial<RequestConfiguration>): Request {
 		return this.request(url, { ...options, method: Method.PATCH })
 	}
 }
