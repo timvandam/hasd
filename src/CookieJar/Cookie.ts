@@ -22,6 +22,13 @@ export default class Cookie {
 	public secure: boolean
 	public readonly valid: boolean
 
+	/**
+	 * Gets the hostname of this cookie
+	 */
+	get hostname(): string {
+		return this.domain ?? this.url.hostname
+	}
+
 	constructor(
 		public url: URL,
 		public name: string,

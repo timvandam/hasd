@@ -22,7 +22,7 @@ export default class CookieJar {
 	public put(cookie: Cookie): void {
 		if (!cookie.valid) return
 		let cookieTreeReference: CookieTree = this.cookieTree
-		const hostname = cookie.domain ?? cookie.url.hostname
+		const { hostname } = cookie
 		for (const part of ReverseHostnameIterator(hostname)) {
 			cookieTreeReference[part] ??= {}
 			cookieTreeReference = cookieTreeReference[part]
