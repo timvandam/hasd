@@ -38,7 +38,7 @@ export default class CookieJar {
 	 */
 	public getCookieHeader(url: URL): string {
 		const cookies = [...CookieJar.CookieIterator(this.cookieTree, url)]
-		return cookies.map(({ name, value }) => `${name}=${value}`).join('; ')
+		return Cookie.getCookieHeader(cookies)
 	}
 
 	/**
